@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DV Lab + Index of American Design</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/bulma.css">
+    <link href="assets/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="assets/fontawesome/css/solid.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="icon" type="image/x-icon" href="icon/dlogo.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <script src="js/leaflet.js"></script>
+  </head>
+  <body>
+    
+    <!-- NAVBAR -->
+    <nav id="elemNavbarTop" class="navbar has-background-primary is-fixed-top" aria-label="main navigation">
+      <div class="navbar-brand">
+        <a id="linkNavHome" class="navbar-item" href="#">
+          <!-- <img src="icon/dlogo.png" alt=""> -->
+          <strong class="">DV Lab + Index of American Design</strong>
+        </a>
+        <div id="elemControl" class="control has-icons-right ml-2" style="display: flex; align-items: center; justify-content: center;">
+          <input id="inputControl" class="input is-link" autocapitalize="off" type="text" placeholder="Search images">
+          <span class="icon is-small is-right mt-15">
+            <button id="btnClearInputControl" class="delete is-clickable"></button>
+          </span>
+        </div>
+        <div style="display: none; align-items: center; justify-content: center; padding-left: 14px">
+          <span class="tag is-link is-hoverable is-rounded tooltip help-search" id="openSearchModal">
+            <i class="fas fa-question"></i>
+          </span>
+        </div>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <div class="navbar-item"></div>
+        </div>
+        <div class="navbar-end" style="display: none">
+          <a id="linkNavAbout" class="navbar-item mr-4"> About </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- CONTAINER FOR LANDING PAGE -->
+    <section class="hero is-danger is-fullheight-with-navbar has-background-primary has-background-image" id="elemSectionWelcome">
+      <div class="hero-body">
+        <div style="max-width: 900px; border-radius: 10px" class="has-background-primary p-5 has-border">
+          <h2 class="title is-size-2">Index of American Design</h2>
+          <p class="subtitle is-size-4">Experments in Distant Viewing</p>
+          <p class="is-size-6 my-3 has-text-justified"> This is an experimental site created to visualize the Index of American Design. Look for more details in the near future!</p>
+          <div class="buttons" style="justify-content: center;">
+            <button class="button is-link is-medium is-clickable mx-3" id="btnCloseWelcome"> START EXPLORING </button>
+            <br>
+            <button class="button is-link is-medium is-clickable mx-3" id="btnAboutWelcome" style="display: none"> LEARN MORE </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTAINER ABOUT THE PROJECT -->
+    <section class="section is-hidden p-3 mt-4" id="elemSectionAbout">
+    </section>
+
+    <!-- CONTAINER WITH SEARCH BAR AND RESULTS -->
+    <section class="section is-hidden p-3" id="elemSectionMain">
+      <div class="container is-max-desktop">
+        <!-- SELECT RESULTS TYPE -->
+        <div id="elemTabs" class="tabs">
+          <ul>
+            <li class="is-active" id="liTabsGrid">
+              <a>
+                <span class="icon is-small">
+                  <i class="fas fa-image" aria-hidden="true"></i>
+                </span>
+                <span>Grid</span>
+              </a>
+            </li>
+            <li class="" id="liTabsCluster" style="display: none">
+              <a>
+                <span class="icon is-small">
+                  <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
+                </span>
+                <span>Clusters</span>
+              </a>
+            </li>
+            <li class="" id="liTabsPhotographer" style="display: none">
+              <a>
+                <span class="icon is-small">
+                  <i class="fas fa-image" aria-hidden="true"></i>
+                </span>
+                <span>Photographers</span>
+              </a>
+            </li>
+            <li class="" id="liTabsMap" style="display: none">
+              <a>
+                <span class="icon is-small">
+                  <i class="fas fa-map" aria-hidden="true"></i>
+                </span>
+                <span>Map</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- PAGINATION OF THE RESULTS -->
+        <nav id="elemPaginate"
+          class="pagination is-centered is-rounded is-small mt-2 mb-0"
+          aria-label="pagination">
+          <a href="#" class="pagination-previous" id="btnPaginatePrevious">Previous</a>
+          <a href="#" class="pagination-next" id="btnPaginateNext">Next</a>
+          <ul class="pagination-list" id="ulPaginate"></ul>
+        </nav>
+
+        <!-- RESULTS -->
+        <div id="elemContainerSearch" class="container has-text-centered mt-2 p-2">
+          <span id="spanSearchMessage" class="is-size-7"></span>
+          <div class="media is-flex is-flex-wrap-wrap is-justify-content-center" id="innerContainerSearch"></div>
+        </div>
+
+        <div class="searchOverlay hidden" id="searchOverlay">
+          <div class="searchOverlayInner">
+            No exact results found for <span id="spanSearchMessageOverlay"></span>.
+            We can try sorting the entire collection using a multimodal AI method.
+            This will return all images in the collection starting
+            with those that <i>may</i> have some similarity to your query.
+            <div class="buttons" style="justify-content: center;">
+              <button class="button has-background-primary is-small mt-4" id="btnSortSearchClear">
+                Clear
+              </button>
+              <button class="button has-background-primary is-small mt-4" id="btnSortSearch">
+                Show Sorted Collection
+              </button> 
+              <button class="button has-background-white is-small mt-4" id="btnSortSearchInfo">
+                More Info
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CLUSTERS -->
+        <div id="elemContainerCluster" class="container is-hidden">
+          <span style="font-size: 0.9em">Automatically generated categories that attempt to capture key themes in the collection. See the <a id="link-about">[about]</a> page for more information.</span>
+          <div class="media is-flex is-flex-wrap-wrap is-justify-content-center" id="innerContainerCluster"></div>
+        </div>
+
+        <!-- PHOTOGRAPHERS -->
+        <div id="elemContainerPhotographer" class="container is-hidden">
+          <p style="font-size: 0.9em" class="has-text-justified">Names of the photographers for all images in your current search query. The numbers show the total number of images from a photographer that are part of your results. Click on a photographer to further filter the search, or clear the search bar above to see all photographers.</p>
+          <div class="media is-flex is-flex-wrap-wrap is-justify-content-center" id="innerContainerPhotographer"></div>
+        </div>
+        <!-- MAP -->
+        <div id="elemContainerMap" class="container">
+          <p style="font-size: 0.9em" class="has-text-justified">A map with a circle showing each of the locations corresponding to images in your current search query. Larger circles correspond to more photographs. Zoom in and out to see further details. Hovering over a circle shows the number of photographs in a given location from your current search. Click on a circle to further filter the search, or clear the search bar above to see all photographers.</p>
+          <div class="" id="innerContainerMap">
+            <div id="map"></div>
+          </div>
+        </div>
+
+        <!-- PAGE FOR A SINGLE PHOTO -->
+        <div id="elemContainerImage" class="container is-hidden">
+          <div style="width: 100%; display: flex; align-items:flex-end; justify-content: space-between;">
+            <button class="p-7 has-text-link" id="btnImagePrevious">
+              <i class="fa fa-angles-left"></i> Previous </button>
+            <button class="p-7 has-text-link" id="btnImageNext">Next <i class="fa fa-angles-right"></i>
+            </button>
+          </div>
+          <span class="is-size-7 p-7">
+            <a id="linkBackResults">‹ Back to all results</a>
+          </span>
+          <br>
+          <div class="columns mt-1">
+            <div class="column is-two-fifths">
+              <figure class="image is-clickable">
+                <img id="imgContainerImage" src="icon/128x128.png" alt="">
+              </figure>
+            </div>
+            <div class="column">
+              <h1 class="title is-5 mb-3">Archival Metadata</h1>
+              <ul>
+                <li>
+                  <strong>National Gallery of Art Link:</strong>
+                  <a id="metaNara" href="#" target="_blank" rel="noopener noreferrer"></a>
+                </li>
+                <li>
+                  <strong>Date:</strong>
+                  <span id="metaDate"></span>
+                </li>
+                <li>
+                  <strong>Artist:</strong>
+                  <a id="metaPhotographer"></a>
+                </li>
+                <li style="display: none">
+                  <strong>Location:</strong>
+                  <a id="metaLocation"></a>
+                </li>
+                <li>
+                  <p class="has-text-justified" id="metaTitle"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="columns" id="aiGeneratedMetadata">
+            <div class="column full">
+              <h1 class="title is-5 mb-3"> AI-Generated Metadata <span class="tag is-link is-hoverable is-rounded tooltip" id="aiGeneratedMetadataButton">
+                  <i class="fas fa-question"></i>
+                  <span class="tooltiptext"> The information below was automatically created with a multimodal large language model. </span>
+                </span>
+              </h1>
+              <ul>
+                <li style="display: none">
+                  <strong>Cluster:</strong>
+                  <a id="metaCluster"></a>
+                </li>
+                <li style="display: none">
+                  <strong>Keywords:</strong>
+                  <span id="metaKeywords"></span>
+                </li>
+                <li style="display: none">
+                  <p class="has-text-justified" id="metaCaption"></p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="container" id="similarPhotos">
+            <span>
+              <strong>Most Similar Photos:</strong>
+            </span>
+            <div id="innerContainerImage" class="media is-flex is-flex-wrap-wrap is-justify-content-center"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMAGE OVERLAY MODAL -->
+    <div id="elemModalImage" class="modal">
+      <div class="modal-background" id="backgroundModalImage"></div>
+      <div class="modal-content">
+        <p class="image">
+          <img src="icon/480x480.png" alt="" id="imgModalImage">
+        </p>
+      </div>
+      <button class="modal-close is-large" aria-label="close" id="btnCloseModalImage"></button>
+    </div>
+
+    <!-- SEARCH INFO OVERLAY MODEL -->
+    <div id="elemModalSearch" class="modal has-text-justified">
+      <div class="modal-background" id="backgroundModalContent"></div>
+      <div class="modal-card">
+      <header class="modal-card-head has-background-primary-lite">
+        <p class="modal-card-title">Search Functionality + AI-Generated Data</p>
+        <button class="delete" aria-label="close" id="btnCloseModalSearch"></button>
+      </header>
+      <section class="modal-card-body">
+        <p class="py-3">
+        The search bar allows for searching both
+        structured archival metadata and automatically created tags generated
+        with AI models. By default, a search will show all images that include
+        every search time in your query in some combination of the archival title,
+        location, photographer or automatically generated image caption. The words
+        do not need to appear in order and the search ignore capitalization.
+        It also, by default, will return results for words that start with your request.
+        For example, the query <span class='tt'>cat</span> will match both
+        <span class='tt'>cats</span> and <span class='tt'>Catherine</span>.
+        To force the model to only return words in the given order or in a specific
+        form, the search term(s) can be enclosed in quotes. For example,
+        <span class='tt'>"white cat"</span> will only return results where white and
+        cat appear together and <span class='tt'>"cat "</span> (with
+        a space before the final quote) will only find examples where cat is followed by
+        a space.
+        </p>
+        <p class="py-3">
+        In addition to filtering the search results, the query also provides an ordering to
+        the images that are found. We use a multimodal model called SigLIP to estimate how 
+        likely the search query would be to be a reasonable caption for a given photograph
+        in the output. The returned results are ordered from the most to the least likely
+        to be a caption for a given search. If no results are found, the entire collection
+        is returned ordered by the search query. This allows for finding possible matches
+        even if the specific words in the query are not used in the archival or AI-generated
+        captions. It is possible to only sort (and not filter) the results by adding the 
+        special tag <span class='tt'>:sort</span> to the query string.
+        </p>
+        <p class="py-3">
+        The automatically generated captions were created with OpenAI's GPT-4-turbo model.
+        We generated the captions by asking the model to "Provide a detailed plain-text
+        description of the objects, activities, people, background and/or composition of
+        this photograph". The captions can be found at the bottom of each of the individual
+        photograph pages. While these are far from perfect, making frequent minor errors and
+        occasional major ones, we find that the future well to allow for finding images 
+        related to topics features in the images but not mentioned directly in the (often
+        short) photographic captions. To learn more about this approach and download the
+        entire set of captions, see our recent article on using multimodal AI models for
+        search and discovery
+        <a href="https://arxiv.org/abs/2411.04663" target="_blank" rel="noopener noreferrer">(Arnold and Tilton, 2024)</a>.
+        </p>
+        <p class="py-3">
+        To search along a specific location, start the part of the search string with
+        the marker <span class='tt'>location:</span>. Similarly, you can specify the
+        desired photographer with <span class='tt'>photographer:</span> and the cluster
+        with <span class='tt'>cluster:</span>. These search
+        terms must match exactly; we recommend using the links on the map, cluster and
+        photographer pages (or on the individual photograph pages) to query by specific
+        fields. When specifying location, photographer or cluster with these special tags,
+        the tags are ignored in the sorting of the results using SigLIP as described above.
+        </p>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button has-background-primary" id="btnCloseModalSearch2">Close</button>
+          <button class="button" id="btnCloseModalSearchAbout">More Info</button>
+        </div>
+      </footer>
+      </div>
+    </div>
+
+    <!-- LOAD THE SCRIPT -->
+    <script src="js/site.js" type="module"></script>
+  </body>
+</html>
