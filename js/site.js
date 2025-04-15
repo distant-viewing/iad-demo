@@ -8,8 +8,8 @@ import { Tensor, matmul, AutoTokenizer, SiglipTextModel } from './transformers.m
 
 
 // image locations
-const imgDirThm = "img/thm/";
-const imgDirMed = "img/med/";
+const imgDirThm = "./img/thm/";
+const imgDirMed = "./img/med/";
 
 
 // maximum number of images to display on a search result page
