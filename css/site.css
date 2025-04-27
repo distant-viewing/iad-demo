@@ -29,10 +29,6 @@ a.anchor {
   width: 40rem;
 }
 
-.help-search {
-  background-color: rgb(75, 95, 53);
-}
-
 .has-background-primary-lite {
   background-color: hsl(var(--bulma-primary-h), var(--bulma-primary-s), 70%) !important;
 }
@@ -44,9 +40,6 @@ a.anchor {
   padding: 2px 5px 2px 5px;
 }
 
-.help-search:hover {
-  background-color: rgb(105.0 133.0  74.2);
-}
 
 @media screen and (max-width: 1023px) {
   #inputControl {

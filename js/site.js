@@ -522,12 +522,12 @@ const updateStateCluster = function()
         div.classList.add(...["cell", "is-clickable"]);
         fig.classList.add(...["image", "is-128x128", "m-4", "mb-6"]);
         cnt.classList.add(...["is-size-7"]);
-        lab.classList.add(...["image-text-center"]);
+        lab.classList.add(...["image-text-center", "is-size-7"]);
         img.classList.add(...["is-opacity-40", "has-border"]);
 
-        img.src = imgDirThm + value.nid + ".jpg";
+        img.src = imgDirThm + value.path;
         img.classList.add("is-rounded");
-        lab.innerHTML = "<strong>#" + key + " " + value.label + "</strong>";
+        lab.innerHTML = "<strong>" + key + ": " + value.label + "</strong>";
         cnt.innerHTML = "<strong>" + curCountClust[key] +
           "</strong> of " + value.count + " photos";
 

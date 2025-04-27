@@ -31,7 +31,7 @@
             <button id="btnClearInputControl" class="delete is-clickable"></button>
           </span>
         </div>
-        <div style="display: none; align-items: center; justify-content: center; padding-left: 14px">
+        <div style="display: flex; align-items: center; justify-content: center; padding-left: 14px">
           <span class="tag is-link is-hoverable is-rounded tooltip help-search" id="openSearchModal">
             <i class="fas fa-question"></i>
           </span>
@@ -47,7 +47,7 @@
         <div class="navbar-start">
           <div class="navbar-item"></div>
         </div>
-        <div class="navbar-end" style="display: none">
+        <div class="navbar-end">
           <a id="linkNavAbout" class="navbar-item mr-4"> About </a>
         </div>
       </div>
@@ -63,7 +63,7 @@
           <div class="buttons" style="justify-content: center;">
             <button class="button is-link is-medium is-clickable mx-3" id="btnCloseWelcome"> START EXPLORING </button>
             <br>
-            <button class="button is-link is-medium is-clickable mx-3" id="btnAboutWelcome" style="display: none"> LEARN MORE </button>
+            <button class="button is-link is-medium is-clickable mx-3" id="btnAboutWelcome"> LEARN MORE </button>
           </div>
         </div>
       </div>
@@ -71,6 +71,115 @@
 
     <!-- CONTAINER ABOUT THE PROJECT -->
     <section class="section is-hidden p-3 mt-4" id="elemSectionAbout">
+      <div class="container is-max-tablet">
+        <div class="content has-text-justified">
+          <h1>Index of American Design:<br> Experments in Distant Viewing</h1>
+          <p class="pb-4"><a href="#searchai" class="slink">Search Functionality</a> | <a href="#clusters" class="slink">Clusters</a> | <a href="#environmental" class="slink">Environmental Impact</a> | <a href="#funding" class="slink">Funding</a></p>
+          <p>This is an experimental project to explore ways to use AI techniques to build a public interface to the digitized drawings in the Index of American Design. The digital, humanities project was created by the <a href="https://distantviewing.org/" target="_blank" rel="noopener noreferrer">Distant Viewing Lab</a> at the University of Richmond by Taylor Arnold and Lauren Tilton in collaboration with the National Gallary of Art. We provide several search features exploration by topic clusters, and open search. The authoritative archive for the Index of American Design is the <a href="https://www.nga.gov/" target="_blank" rel="noopener noreferrer">National Gallery of Art (NGA)</a>, which holds the physical prints, extensive archival material, and copyright information. 
+          </p>
+          <a class="anchor" id="searchai"></a>
+          <h3>Search Functionality + AI-Generated Data</h3>
+          <p>
+          The search bar on allows for querying both
+          structured archival metadata and automatically-created tags generated
+          with AI models. The search will query the archival title,
+          location, artist, and automatically generated image captions.
+          By default, we only return results that include all the terms in the query. 
+          The words do not need to appear in the same order. 
+          The algorithm also ignores capitalization. For example, if we type 
+          the word <span class='tt'>barn</span>, the search will return images
+          that have "barn" in their caption as well as any images created by Ruth M. Barnes.
+          By default, we return results for words that start with your request.
+          For example, the query <span class='tt'>pot</span> will match both <span class='tt'>pot</span> and <span class='tt'>pottery</span>.        
+          </p>
+          <p>
+        To force the model to only return words in the given order or in a specific
+        form, the search term(s) can be enclosed in quotes. For example,
+        <span class='tt'>"red jar"</span> will only return results where red and
+        jar appear together and <span class='tt'>"jar "</span> (with
+        a space before the final quote) will only find examples where jar is followed by
+        a space.
+          </p>
+          <p>
+          In addition to filtering, the query also includes an ordering to
+          the search results. We use a multimodal model called SigLIP to estimate how 
+          likely the search query would be a reasonable caption for the results. 
+          The returned results are ordered from the most to the least likely
+          to be a caption for a given search. If no results are found, the entire collection
+          is returned ordered by using the same logic: the likeliness to be the caption for that image. 
+          This allows for finding possible matches
+          even if the specific words in the query are not used in the archival or AI-generated
+          captions. For example, one might 
+          consider searching the word <span class='tt'>feline</span>. Although there are images
+          with captions that use the specific names of felines ('cat', 'leopard', and 'tiger'),
+          no caption directly uses this specific term. However, sorting the entire
+          collection by the term 'feline' using the SigLIP models provides an alternative
+          way of finding the images of felines in the archive.
+          It is possible to only sort (and not filter) the results by adding the 
+          special tag <span class='tt'>:sort</span> to the query string. This can be useful
+          in cases where there are a small number of exact matches but many more close matches.
+          </p>
+          <p>
+          The automatically generated captions were created with OpenAI's GPT4.1 model (gpt-4.1-2025-04-14).
+          We generated the captions by asking the model to "Provide a detailed plain-text description of the objects in this drawing as a single paragraph. Include information about the color and composition of the drawing. Do not give any subjective summary." The captions can be found at the bottom of each of the individual
+          photograph pages. While these are far from perfect, making frequent minor errors and
+          occasional major ones, we find that the resulting captions allow for finding images 
+          related to topics featured in the images but not mentioned directly in the (often
+          short) photographic captions from the 1970s. To learn more about this approach and 
+          to download the entire set of captions, see our recent article on using multimodal 
+          AI models for search and discovery linked below.
+          </p>
+          <p>
+          To search for a specific location, start the search string with
+          the marker <span class='tt'>location:</span>. Similarly, we can specify the
+          desired photographer with <span class='tt'>photographer:</span> and the cluster
+          with <span class='tt'>cluster:</span>. These search
+          terms must match exactly; we recommend using the links on the map, cluster, and
+          photographer pages (or on the individual photograph pages) to query by specific
+          fields. When specifying location, photographer, or cluster with these special tags,
+          the tags are ignored in the sorting of the results using SigLIP as described above.
+          </p>
+          <p>Please see the following papers for more details about the design and algorithms underlying the project. All publications are freely available.</p>
+          <pre style="white-space: pre-wrap;">T. Arnold and L. Tilton (2024) "Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models." <i>Proceedings of the Computational Humanities Research Conference</i>. <a href="https://arxiv.org/abs/2411.04663" target="_blank" rel="noopener noreferrer">[pdf]</a> <a href="https://distantviewing.org/data" target="_blank" rel="noopener noreferrer">[data]</a></pre>
+          <pre style="white-space: pre-wrap;">T. Arnold and L. Tilton (2024) "Automated Image Color Mapping for a Historic Photographic Collection." <i>Proceedings of the Computational Humanities Research Conference</i>. (Best Short Paper, CHR 2024) <a href="https://arxiv.org/abs/2411.04659" target="_blank" rel="noopener noreferrer">[pdf]</a> <a href="https://distantviewing.org/data" target="_blank" rel="noopener noreferrer">[data]</a></pre>
+          <p>
+            The links above include reproducable code and a downloadable version of the dataset.</p>
+          </p>
+          <a class="anchor" id="clusters"></a>
+          <h3>Clusters</h3>
+          <p>
+            We have associated each of the digitized images in the  collection to
+            one of 50 clusters. The clusters attempt to group together images by their primary
+            subject matter and composition. These clusters have been automatically generated using
+            the AI-created captions described in the previous section. Specifically, we used an
+            generative model to summarize the 50 themes in the captions based on the collection of
+            captions. Then, we assigned each image to the cluster name to which it has the closest
+            SigLIP embedding. In other words, which of the cluster names would most likely be the
+            caption for a image. These clusters should not be treated as authorative labels
+            for the images. Rather, they are a potentially useful tool for understanding the scope of
+            the collection that must be augmented with a close analysis of individual images.
+          </p>
+          <a class="anchor" id="environmental"></a>
+          <h3>AI + Environmental Impact</h3>
+          <p>
+            There are important ongoing discussions and concerns regarding the environmental impacts of
+            generative artifical intelligence models. We have aimed to be careful to minimize
+            the environmental impact of the AI models used in the project. We ran the AI models 
+            a single time through the entire collection, and the results are now stored locally on our server. The process of running all of the models used one GPU for an approximate duration of 15 hours. This required roughly
+            3.75 kilowatt hours, creating around 1.62 kilograms of carbon emmisions,
+            or approximately the amount of emmisions generated driving a standard-sized car
+            a distance of 6.55 kilometers (4 miles) [<a href="https://mlco2.github.io/impact" target="_blank" rel="noopener noreferrer">source</a>]. 
+          </p>
+          <a class="anchor" id="funding"></a>
+          <h3>Funding</h3>
+          <p>The project is funded in part by grants from the Mellon Foundation and the National Endowment for the Humanities. Funding has also been provided by the University of Richmond for continued work and development.</p>
+          <div style="display: flex; flex-direction: row; justify-content: space-around" class="pb-6">
+            <img src="icon/neh_logo.png" style="display:inline-block; height: 100px">
+            <img src="icon/mellon_logo.png" style="display:inline-block; height: 100px">
+            <img src="icon/shield_ur.png" style="display:inline-block; height: 100px">
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- CONTAINER WITH SEARCH BAR AND RESULTS -->
@@ -87,7 +196,7 @@
                 <span>Grid</span>
               </a>
             </li>
-            <li class="" id="liTabsCluster" style="display: none">
+            <li class="" id="liTabsCluster">
               <a>
                 <span class="icon is-small">
                   <i class="fas fa-magnifying-glass" aria-hidden="true"></i>
@@ -219,15 +328,15 @@
                 </span>
               </h1>
               <ul>
-                <li style="display: none">
+                <li>
                   <strong>Cluster:</strong>
                   <a id="metaCluster"></a>
                 </li>
-                <li style="display: none">
+                <li>
                   <strong>Keywords:</strong>
                   <span id="metaKeywords"></span>
                 </li>
-                <li style="display: none">
+                <li>
                   <p class="has-text-justified" id="metaCaption"></p>
                 </li>
               </ul>
@@ -235,7 +344,7 @@
           </div>
           <div class="container" id="similarPhotos">
             <span>
-              <strong>Most Similar Photos:</strong>
+              <strong>Most Similar Images:</strong>
             </span>
             <div id="innerContainerImage" class="media is-flex is-flex-wrap-wrap is-justify-content-center"></div>
           </div>
@@ -267,17 +376,16 @@
         The search bar allows for searching both
         structured archival metadata and automatically created tags generated
         with AI models. By default, a search will show all images that include
-        every search time in your query in some combination of the archival title,
-        location, photographer or automatically generated image caption. The words
-        do not need to appear in order and the search ignore capitalization.
+        every search term in your query in some combination of the archival title, creator name, or automatically generated image caption. The words
+        do not need to appear in order and the search ignores capitalization.
         It also, by default, will return results for words that start with your request.
-        For example, the query <span class='tt'>cat</span> will match both
-        <span class='tt'>cats</span> and <span class='tt'>Catherine</span>.
+        For example, the query <span class='tt'>pot</span> will match both
+        <span class='tt'>pot</span> and <span class='tt'>pottery</span>.
         To force the model to only return words in the given order or in a specific
         form, the search term(s) can be enclosed in quotes. For example,
-        <span class='tt'>"white cat"</span> will only return results where white and
-        cat appear together and <span class='tt'>"cat "</span> (with
-        a space before the final quote) will only find examples where cat is followed by
+        <span class='tt'>"red jar"</span> will only return results where red and
+        jar appear together and <span class='tt'>"jar "</span> (with
+        a space before the final quote) will only find examples where jar is followed by
         a space.
         </p>
         <p class="py-3">
@@ -292,14 +400,12 @@
         special tag <span class='tt'>:sort</span> to the query string.
         </p>
         <p class="py-3">
-        The automatically generated captions were created with OpenAI's GPT-4-turbo model.
-        We generated the captions by asking the model to "Provide a detailed plain-text
-        description of the objects, activities, people, background and/or composition of
-        this photograph". The captions can be found at the bottom of each of the individual
+        The automatically generated captions were created with OpenAI's GPT4.1 model (gpt-4.1-2025-04-14).
+        We generated the captions by asking the model to "Provide a detailed plain-text description of the objects in this drawing as a single paragraph. Include information about the color and composition of the drawing. Do not give any subjective summary.". The captions can be found at the bottom of each of the individual
         photograph pages. While these are far from perfect, making frequent minor errors and
         occasional major ones, we find that the future well to allow for finding images 
         related to topics features in the images but not mentioned directly in the (often
-        short) photographic captions. To learn more about this approach and download the
+        short) archival titles. To learn more about this approach and download the
         entire set of captions, see our recent article on using multimodal AI models for
         search and discovery
         <a href="https://arxiv.org/abs/2411.04663" target="_blank" rel="noopener noreferrer">(Arnold and Tilton, 2024)</a>.
@@ -307,11 +413,10 @@
         <p class="py-3">
         To search along a specific location, start the part of the search string with
         the marker <span class='tt'>location:</span>. Similarly, you can specify the
-        desired photographer with <span class='tt'>photographer:</span> and the cluster
+        desired creator with <span class='tt'>creator:</span> and the cluster
         with <span class='tt'>cluster:</span>. These search
-        terms must match exactly; we recommend using the links on the map, cluster and
-        photographer pages (or on the individual photograph pages) to query by specific
-        fields. When specifying location, photographer or cluster with these special tags,
+        terms must match exactly; we recommend using the links on the individual image pages to query by specific
+        fields. When specifying the creator or cluster with these special tags,
         the tags are ignored in the sorting of the results using SigLIP as described above.
         </p>
       </section>
