@@ -913,28 +913,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ); 
 
-  gId("btnCloseModalSearch").addEventListener(
-    "click", () => {
-      setSearchParam({"info": ""});
-      updateStateAll();
-    }
-  ); 
-
-  gId("btnCloseModalSearch2").addEventListener(
-    "click", () => {
-      setSearchParam({"info": ""});
-      updateStateAll();
-    }
-  ); 
-
-
-  gId("btnCloseModalSearchAbout").addEventListener(
-    "click", () => {
-      setSearchParam({"info": "", "r": "about"});
-      updateStateAll();
-    }
-  ); 
-
   gId("btnSortSearchClear").addEventListener(
     "click", () => {
       inputControl.value = "";

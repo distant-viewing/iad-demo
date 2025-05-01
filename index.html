@@ -75,14 +75,14 @@
         <div class="content has-text-justified">
           <h1>Index of American Design:<br> Experments in Distant Viewing</h1>
           <p class="pb-4"><a href="#searchai" class="slink">Search Functionality</a> | <a href="#clusters" class="slink">Clusters</a> | <a href="#environmental" class="slink">Environmental Impact</a> | <a href="#funding" class="slink">Funding</a></p>
-          <p>This is an experimental project to explore ways to use AI techniques to build a public interface to the digitized drawings in the Index of American Design. The digital, humanities project was created by the <a href="https://distantviewing.org/" target="_blank" rel="noopener noreferrer">Distant Viewing Lab</a> at the University of Richmond by Taylor Arnold and Lauren Tilton in collaboration with the National Gallary of Art. We provide several search features exploration by topic clusters, and open search. The authoritative archive for the Index of American Design is the <a href="https://www.nga.gov/" target="_blank" rel="noopener noreferrer">National Gallery of Art (NGA)</a>, which holds the physical prints, extensive archival material, and copyright information. 
+          <p>This is an experimental project to explore ways to use AI techniques to build a public interface to the digitized drawings in the Index of American Design. The digital humanities project was created by the <a href="https://distantviewing.org/" target="_blank" rel="noopener noreferrer">Distant Viewing Lab</a> at the University of Richmond by Taylor Arnold and Lauren Tilton in collaboration with the National Gallary of Art. We provide several search features exploration by topic clusters, and open search. The authoritative collection for the Index of American Design is the <a href="https://www.nga.gov/" target="_blank" rel="noopener noreferrer">National Gallery of Art (NGA)</a>, which holds the physical watercolors, extensive archival material, and copyright information. 
           </p>
           <a class="anchor" id="searchai"></a>
           <h3>Search Functionality + AI-Generated Data</h3>
           <p>
-          The search bar on allows for querying both
-          structured archival metadata and automatically-created tags generated
-          with AI models. The search will query the archival title,
+          The search bar allows for querying both
+          structured collections metadata and automatically-created tags generated
+          with AI models. The search will query the collections title,
           location, artist, and automatically generated image captions.
           By default, we only return results that include all the terms in the query. 
           The words do not need to appear in the same order. 
@@ -108,13 +108,8 @@
           to be a caption for a given search. If no results are found, the entire collection
           is returned ordered by using the same logic: the likeliness to be the caption for that image. 
           This allows for finding possible matches
-          even if the specific words in the query are not used in the archival or AI-generated
-          captions. For example, one might 
-          consider searching the word <span class='tt'>feline</span>. Although there are images
-          with captions that use the specific names of felines ('cat', 'leopard', and 'tiger'),
-          no caption directly uses this specific term. However, sorting the entire
-          collection by the term 'feline' using the SigLIP models provides an alternative
-          way of finding the images of felines in the archive.
+          even if the specific words in the query are not used in the collection cataloging information or AI-generated
+          captions.
           It is possible to only sort (and not filter) the results by adding the 
           special tag <span class='tt'>:sort</span> to the query string. This can be useful
           in cases where there are a small number of exact matches but many more close matches.
@@ -124,19 +119,15 @@
           We generated the captions by asking the model to "Provide a detailed plain-text description of the objects in this drawing as a single paragraph. Include information about the color and composition of the drawing. Do not give any subjective summary." The captions can be found at the bottom of each of the individual
           photograph pages. While these are far from perfect, making frequent minor errors and
           occasional major ones, we find that the resulting captions allow for finding images 
-          related to topics featured in the images but not mentioned directly in the (often
-          short) photographic captions from the 1970s. To learn more about this approach and 
+          related to topics featured in the images but not mentioned directly in the artwork titles. To learn more about this approach and 
           to download the entire set of captions, see our recent article on using multimodal 
           AI models for search and discovery linked below.
           </p>
           <p>
-          To search for a specific location, start the search string with
-          the marker <span class='tt'>location:</span>. Similarly, we can specify the
-          desired photographer with <span class='tt'>photographer:</span> and the cluster
-          with <span class='tt'>cluster:</span>. These search
-          terms must match exactly; we recommend using the links on the map, cluster, and
-          photographer pages (or on the individual photograph pages) to query by specific
-          fields. When specifying location, photographer, or cluster with these special tags,
+          To search for a specific artist, start the search string with
+          the marker <span class='tt'>creator:</span>. These search
+          terms must match exactly; we recommend using the links on the individual pages to query by specific
+          fields. When specifying location or cluster with these special tags,
           the tags are ignored in the sorting of the results using SigLIP as described above.
           </p>
           <p>Please see the following papers for more details about the design and algorithms underlying the project. All publications are freely available.</p>
@@ -151,7 +142,7 @@
             We have associated each of the digitized images in the  collection to
             one of 50 clusters. The clusters attempt to group together images by their primary
             subject matter and composition. These clusters have been automatically generated using
-            the AI-created captions described in the previous section. Specifically, we used an
+            the AI-created captions described in the previous section. Specifically, we used a
             generative model to summarize the 50 themes in the captions based on the collection of
             captions. Then, we assigned each image to the cluster name to which it has the closest
             SigLIP embedding. In other words, which of the cluster names would most likely be the
@@ -367,65 +358,6 @@
     <div id="elemModalSearch" class="modal has-text-justified">
       <div class="modal-background" id="backgroundModalContent"></div>
       <div class="modal-card">
-      <header class="modal-card-head has-background-primary-lite">
-        <p class="modal-card-title">Search Functionality + AI-Generated Data</p>
-        <button class="delete" aria-label="close" id="btnCloseModalSearch"></button>
-      </header>
-      <section class="modal-card-body">
-        <p class="py-3">
-        The search bar allows for searching both
-        structured archival metadata and automatically created tags generated
-        with AI models. By default, a search will show all images that include
-        every search term in your query in some combination of the archival title, creator name, or automatically generated image caption. The words
-        do not need to appear in order and the search ignores capitalization.
-        It also, by default, will return results for words that start with your request.
-        For example, the query <span class='tt'>pot</span> will match both
-        <span class='tt'>pot</span> and <span class='tt'>pottery</span>.
-        To force the model to only return words in the given order or in a specific
-        form, the search term(s) can be enclosed in quotes. For example,
-        <span class='tt'>"red jar"</span> will only return results where red and
-        jar appear together and <span class='tt'>"jar "</span> (with
-        a space before the final quote) will only find examples where jar is followed by
-        a space.
-        </p>
-        <p class="py-3">
-        In addition to filtering the search results, the query also provides an ordering to
-        the images that are found. We use a multimodal model called SigLIP to estimate how 
-        likely the search query would be to be a reasonable caption for a given photograph
-        in the output. The returned results are ordered from the most to the least likely
-        to be a caption for a given search. If no results are found, the entire collection
-        is returned ordered by the search query. This allows for finding possible matches
-        even if the specific words in the query are not used in the archival or AI-generated
-        captions. It is possible to only sort (and not filter) the results by adding the 
-        special tag <span class='tt'>:sort</span> to the query string.
-        </p>
-        <p class="py-3">
-        The automatically generated captions were created with OpenAI's GPT4.1 model (gpt-4.1-2025-04-14).
-        We generated the captions by asking the model to "Provide a detailed plain-text description of the objects in this drawing as a single paragraph. Include information about the color and composition of the drawing. Do not give any subjective summary.". The captions can be found at the bottom of each of the individual
-        photograph pages. While these are far from perfect, making frequent minor errors and
-        occasional major ones, we find that the future well to allow for finding images 
-        related to topics features in the images but not mentioned directly in the (often
-        short) archival titles. To learn more about this approach and download the
-        entire set of captions, see our recent article on using multimodal AI models for
-        search and discovery
-        <a href="https://arxiv.org/abs/2411.04663" target="_blank" rel="noopener noreferrer">(Arnold and Tilton, 2024)</a>.
-        </p>
-        <p class="py-3">
-        To search along a specific location, start the part of the search string with
-        the marker <span class='tt'>location:</span>. Similarly, you can specify the
-        desired creator with <span class='tt'>creator:</span> and the cluster
-        with <span class='tt'>cluster:</span>. These search
-        terms must match exactly; we recommend using the links on the individual image pages to query by specific
-        fields. When specifying the creator or cluster with these special tags,
-        the tags are ignored in the sorting of the results using SigLIP as described above.
-        </p>
-      </section>
-      <footer class="modal-card-foot">
-        <div class="buttons">
-          <button class="button has-background-primary" id="btnCloseModalSearch2">Close</button>
-          <button class="button" id="btnCloseModalSearchAbout">More Info</button>
-        </div>
-      </footer>
       </div>
     </div>
 
